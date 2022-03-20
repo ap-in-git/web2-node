@@ -1,25 +1,27 @@
-require("dotenv").config();
-const express = require("express");
-const path = require("path");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const fileUpload = require("express-fileupload");
+require('dotenv').config();
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const fileUpload = require('express-fileupload');
 
 const app = express();
 //Handling cors
 app.use(cors());
-app.options("*", cors());
+app.options('*', cors());
 //Handling json data from body
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //Urls
-const userRouter = require("./routes/users");
-const productRouter = require("./routes/product");
-const cartRouter = require("./routes/carts");
+const userRouter = require('./routes/users');
+const productRouter = require('./routes/product');
+const cartRouter = require('./routes/carts');
+const orderRouter = require('./routes/order');
+const commentRouter = require('./routes/comment');
 
 const uriString = process.env.MONGO_URL_STRING;
 
@@ -33,27 +35,29 @@ mongoose.connect(
 );
 
 mongoose.connection
-  .on("error", (err) => {
-    console.log("Error: ", err);
+  .on('error', (err) => {
+    console.log('Error: ', err);
   })
-  .on("connected", (err, res) => {
-    console.log("Mongodb connected!");
+  .on('connected', (err, res) => {
+    console.log('Mongodb connected successfully!');
   });
 
-app.use(logger("dev"));
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   fileUpload({
     createParentPath: true,
   })
 );
 
-app.use("/api/users", userRouter);
-app.use("/api/products", productRouter);
-app.use("/api/carts", cartRouter);
+app.use('/api/users', userRouter);
+app.use('/api/products', productRouter);
+app.use('/api/carts', cartRouter);
+app.use('/api/orders', orderRouter);
+app.use('/api/comments', commentRouter);
 
 app.listen(8000);
 

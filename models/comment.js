@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const OrderSchema = new mongoose.Schema({
+const CommentSchema = new mongoose.Schema({
   id: {
     type: 'String',
   },
@@ -8,32 +8,27 @@ const OrderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  quantity: {
-    type: 'Number',
-    default: 1,
-  },
-
   user_id: {
     type: String,
     required: true,
   },
-  shipping_cost: {
+  commented_at: {
+    type: 'String',
+    default: 1,
+  },
+  rating: {
     type: 'Number',
     required: true,
   },
-  product_price: {
+  text: {
     type: 'String',
     required: true,
   },
-  order_status: {
-    type: String,
-    required: true,
-  },
-  created_at: {
+  image: {
     type: String,
     required: true,
   },
 });
 
-const Order = mongoose.model('Order', OrderSchema);
-module.exports = Order;
+const Comment = mongoose.model('Comment', CommentSchema);
+module.exports = Comment;

@@ -9,9 +9,9 @@ const Joi = require('joi');
 const path = require('path');
 
 /* GET API to retrieve Order by user Id*/
-router.get('/', async (req, res) => {
+router.get('/:user_id', async (req, res) => {
   try {
-    const user_id_filter = { user_id: req.query.user_id };
+    const user_id_filter = { user_id: req.params.user_id };
 
     const order = await Order.find(user_id_filter);
 
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
         message: 'Order not found',
       });
     }
-    order_id = order._id;
+    const order_id = order._id;
     return res.json(order);
   } catch (e) {
     if (e.kind === 'ObjectId') {
@@ -62,7 +62,6 @@ router.delete('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   const { product_id, quantity, user_id } = req.body;
   const data = req.body;
-  console.log(req.body);
   const schema = Joi.object().keys({
     product_id: Joi.string().required(),
     quantity: Joi.number().integer().required(),
@@ -90,7 +89,7 @@ router.post('/', async (req, res) => {
       message: 'User not found with Id: ' + user_id,
     });
   }
-  order = new Order({
+  const order = new Order({
     product_id: product_id,
     quantity: quantity,
     user_id: user_id,
@@ -106,15 +105,15 @@ router.post('/', async (req, res) => {
   });
 });
 
-//Put method to updatte new Order
+//Put method to update new Order
 router.put('/', async (req, res) => {
   const { order_status } = req.body;
   const _id = req.query.id;
   const data = req.body;
-  console.log(_id);
   const schema = Joi.object().keys({
     order_status: Joi.string().required(),
   });
+
 
   const validationResult = schema.validate(data);
   if (validationResult.error != null) {
@@ -128,22 +127,15 @@ router.put('/', async (req, res) => {
   if (_id == null || _id == '') {
     return res.status(422).json({ message: 'invalid id ' });
   }
-  var order = await Order.findById(_id);
+  let order = await Order.findOne({_id:_id});
   if (!order) {
     return res.status(404).send({
       message: 'Order not found with Id: ' + _id,
     });
   }
 
-  order = new Order({
-    product_id: order.product_id,
-    quantity: order.quantity,
-    user_id: order.user_id,
-    shipping_cost: order.shipping_cost,
-    product_price: order.price,
-    order_status: order_status,
-    created_at: order.created_at,
-  });
+
+  order.order_status = order_status
   await order.save();
   return res.json({
     message: 'order status updated successfully',

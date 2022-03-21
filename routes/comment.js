@@ -4,21 +4,30 @@ const mongoose = require('mongoose');
 
 const Comment = require('../models/comment');
 const Product = require('../models/product');
+const User = require('../models/user');
 const Joi = require('joi');
 const path = require('path');
 
 /* GET API to retrieve Comment by Product Id*/
 router.get('/:product_id', async (req, res) => {
   try {
-    const product_id_filter = { user_id: req.body.product_id };
-    const comment = await Comment.find(product_id_filter);
+    const product_id_filter = { product_id: req.params.product_id };
+    let comment = await Comment.find(product_id_filter);
+
 
     if (!comment) {
       return res.status(404).send({
         message: 'Comment not found',
       });
     }
-    comment_id = comment._id;
+    comment = JSON.parse(JSON.stringify(comment))
+    console.log(comment)
+
+    for (let i = 0; i <comment.length ; i++) {
+       comment[i].product = await Product.findOne({_id: comment[i].product_id})
+       comment[i].user = await User.findOne({_id: comment[i].user_id})
+    }
+
     return res.json(comment);
   } catch (e) {
     if (e.kind === 'ObjectId') {
@@ -65,7 +74,7 @@ router.post('/', async (req, res) => {
     product_id: Joi.string().required(),
     text: Joi.string().required(),
     user_id: Joi.string().required(),
-    comment_image: Joi.string().required(),
+    comment_image: Joi.string(),
     rating: Joi.string().required(),
   });
 
@@ -90,14 +99,18 @@ router.post('/', async (req, res) => {
       message: 'User not found with Id: ' + user_id,
     });
   }
-  comment = new Comment({
+  let comment = new Comment({
     product_id: product_id,
     text: text,
     comment_image: comment_image,
     rating: rating,
     user_id: user_id,
   });
+
   await comment.save();
+  comment = JSON.parse(JSON.stringify(comment))
+  comment.product = await Product.findOne({_id: product_id})
+  comment.user = await User.findOne({_id: user_id})
   return res.json({
     message: 'comment created successfully',
     comment,

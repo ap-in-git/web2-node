@@ -12,8 +12,8 @@ router.get("/", async (req, res) => {
         const products = await Product.find({})
         products.forEach( p => {
             p.id = p._id
-            p.banner_image = BASE_URL +"/public/banner_image/" + p.banner_image
-            p.thumbnail_image = BASE_URL +"/public/thumbnail_image/"+ p.thumbnail_image
+            p.banner_image = BASE_URL +"/banner_image/" + p.banner_image
+            p.thumbnail_image = BASE_URL +"/thumbnail_image/"+ p.thumbnail_image
 
         })
         res.json(products)

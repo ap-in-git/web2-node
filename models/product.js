@@ -29,6 +29,9 @@ const ProductSchema = new mongoose.Schema({
         type: "Number",
         required: true
     },
+    product: {
+        type: "Object",
+    },
     id: {
         type: "String",
     }

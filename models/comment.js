@@ -14,7 +14,7 @@ const CommentSchema = new mongoose.Schema({
   },
   commented_at: {
     type: 'String',
-    default: 1,
+    default: () => new Date(),
   },
   rating: {
     type: 'Number',
@@ -26,7 +26,6 @@ const CommentSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    required: true,
   },
 });
 

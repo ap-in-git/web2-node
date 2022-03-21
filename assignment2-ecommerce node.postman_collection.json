@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a5c96c46-89f1-4e13-8bf2-4fad0408d9d9",
+		"_postman_id": "9be150ef-1512-4123-b045-fee1d8e10953",
 		"name": "assignment2-ecommerce node",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -591,6 +591,25 @@
 			"name": "Cart items",
 			"item": [
 				{
+					"name": "Get all carts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ASSIGNMENT_URL}}/api/carts/",
+							"host": [
+								"{{ASSIGNMENT_URL}}"
+							],
+							"path": [
+								"api",
+								"carts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get cart items by user id",
 					"event": [
 						{
@@ -610,19 +629,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{ASSIGNMENT_URL}}/api/carts?user_id=1",
+							"raw": "{{ASSIGNMENT_URL}}/api/carts/62309e195e765c1ba9f28af2",
 							"host": [
 								"{{ASSIGNMENT_URL}}"
 							],
 							"path": [
 								"api",
-								"carts"
-							],
-							"query": [
-								{
-									"key": "user_id",
-									"value": "1"
-								}
+								"carts",
+								"62309e195e765c1ba9f28af2"
 							]
 						}
 					},
@@ -661,20 +675,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{ASSIGNMENT_URL}}/api/carts/?id=1",
+							"raw": "{{ASSIGNMENT_URL}}/api/carts/6238a70fa3a02b591bd86aba",
 							"host": [
 								"{{ASSIGNMENT_URL}}"
 							],
 							"path": [
 								"api",
 								"carts",
-								""
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "1"
-								}
+								"6238a70fa3a02b591bd86aba"
 							]
 						}
 					},
@@ -719,7 +727,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"quantity\":9,\n    \"product_id\":2,\n    \"user_id\":5\n    }",
+							"raw": "{\n    \"quantity\":\"9\",\n    \"product_id\":\"6230a953eb075eb87a9a7614\",\n    \"user_id\":\"62309e195e765c1ba9f28af2\"\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -775,7 +783,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"quantity\":9,\n    \"product_id\":3,\n    \"user_id\":5\n}",
+							"raw": "{\n    \"quantity\":\"6\",\n    \"product_id\":\"6230a953eb075eb87a9a7614\",\n    \"user_id\":\"62309e195e765c1ba9f28af2\"\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -783,20 +791,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{ASSIGNMENT_URL}}/api/carts/?id=1",
+							"raw": "{{ASSIGNMENT_URL}}/api/carts/6238a70fa3a02b591bd86aba",
 							"host": [
 								"{{ASSIGNMENT_URL}}"
 							],
 							"path": [
 								"api",
 								"carts",
-								""
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "1"
-								}
+								"6238a70fa3a02b591bd86aba"
 							]
 						}
 					},

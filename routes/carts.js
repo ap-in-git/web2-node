@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Cart = require("../models/cart");
+const User = require("../models/user");
 const Joi = require("joi");
 const { use } = require("express/lib/router");
 
@@ -15,12 +16,11 @@ router.get("/", async (req, res) => {
   }
 });
 
-/* GET 1 cart */
+/* GET cart by user id */
 router.get("/:id", async (req, res) => {
-  const cart = await Cart.findOne(
-    { _id: req.params.id },
-    "product_id quantity user_id"
-  );
+  const user_id_filter = { user_id: req.params.id };
+  const cart = await Cart.find(user_id_filter);
+
   if (!cart) {
     return res.status(404).json({
       message: "Cart not found",
